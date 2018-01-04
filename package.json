@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec node -- server.js"
+    "start": "nodemon --exec node -- server.js",
+    "build": "webpack -w"
   },
   "repository": {
     "type": "git",
