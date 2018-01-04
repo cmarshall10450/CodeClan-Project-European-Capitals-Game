@@ -1,0 +1,33 @@
+{
+  "name": "European-Capitals-Game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec node -- server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url":
+      "git+https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url":
+      "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game/issues"
+  },
+  "homepage":
+    "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game#readme",
+  "devDependencies": {
+    "nodemon": "^1.14.7",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.0-rc1"
+  }
+}
