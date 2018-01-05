@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "public";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
@@ -67,7 +67,8 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const MapWrapper = __webpack_require__(2);
+const MapWrapper = __webpack_require__(1);
+let countryMap;
 
 const app = function() {
   console.log('App started');
@@ -77,14 +78,68 @@ const app = function() {
 const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
-  let countryMap = new MapWrapper(mapDiv, center, 5);
+  countryMap = new MapWrapper(mapDiv, center, 5);
 };
+
 
 document.addEventListener('DOMContentLoaded', app);
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const GoogleMapsLoader = __webpack_require__(2);
+
+const MapWrapper = function(container, coordinates, zoom) {
+  GoogleMapsLoader.load(
+    function(google) {
+      this.google = google; //google object.
+      this.googleMap = new google.maps.Map(container, {
+        center: coordinates,
+        zoom: zoom,
+        styles: [
+          { elementType: 'labels', stylers: [{ visibility: 'off' }] },
+          {
+            featureType: 'administrative.land_parcel',
+            stylers: [{ visibility: 'off' }],
+          },
+          {
+            featureType: 'administrative.neighborhood',
+            stylers: [{ visibility: 'off' }],
+          },
+          { featureType: 'road', stylers: [{ visibility: 'off' }] },
+        ],
+      });
+      this.markers = [];
+
+      google.maps.event.addListener(this.googleMap, 'click', function(event) {
+       console.log(event);
+       console.log(event.latLng);
+       console.log(event.latLng.lat());
+       console.log(event.latLng.lng());
+         this.addMarker(event.latLng);
+      }.bind(this));
+
+      // this.googleMap.disableDragging();
+      // whenmaploaded();
+      // //if this line hits, the map is loaded.
+    }.bind(this)
+  );
+};
+
+MapWrapper.prototype.addMarker = function(coords) {
+  var marker = new this.google.maps.Marker({
+    position: coords,
+    map: this.googleMap,
+  });
+};
+
+module.exports = MapWrapper;
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory) {
@@ -310,51 +365,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root
 	return GoogleMapsLoader;
 
 });
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const GoogleMapsLoader = __webpack_require__(1);
-
-const MapWrapper = function(container, coordinates, zoom) {
-  GoogleMapsLoader.load(
-    function(google) {
-      this.google = google; //google object.
-      this.googleMap = new google.maps.Map(container, {
-        center: coordinates,
-        zoom: zoom,
-        styles: [
-          { elementType: 'labels', stylers: [{ visibility: 'off' }] },
-          {
-            featureType: 'administrative.land_parcel',
-            stylers: [{ visibility: 'off' }],
-          },
-          {
-            featureType: 'administrative.neighborhood',
-            stylers: [{ visibility: 'off' }],
-          },
-          { featureType: 'road', stylers: [{ visibility: 'off' }] },
-        ],
-      });
-      this.markers = [];
-
-      this.googleMap.disableDragging();
-      // whenmaploaded();
-      // //if this line hits, the map is loaded.
-    }.bind(this)
-  );
-};
-
-MapWrapper.prototype.addMarker = function(coords) {
-  var marker = new this.google.maps.Marker({
-    position: coords,
-    map: this.googleMap,
-  });
-};
-
-module.exports = MapWrapper;
 
 
 /***/ })

@@ -1,4 +1,5 @@
 const MapWrapper = require('./MapWrapper');
+let countryMap;
 
 const app = function() {
   console.log('App started');
@@ -8,7 +9,8 @@ const app = function() {
 const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
-  let countryMap = new MapWrapper(mapDiv, center, 5);
+  countryMap = new MapWrapper(mapDiv, center, 5);
 };
+
 
 document.addEventListener('DOMContentLoaded', app);

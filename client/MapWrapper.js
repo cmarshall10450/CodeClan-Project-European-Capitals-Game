@@ -22,7 +22,15 @@ const MapWrapper = function(container, coordinates, zoom) {
       });
       this.markers = [];
 
-      this.googleMap.disableDragging();
+      google.maps.event.addListener(this.googleMap, 'click', function(event) {
+       console.log(event);
+       console.log(event.latLng);
+       console.log(event.latLng.lat());
+       console.log(event.latLng.lng());
+         this.addMarker(event.latLng);
+      }.bind(this));
+
+      // this.googleMap.disableDragging();
       // whenmaploaded();
       // //if this line hits, the map is loaded.
     }.bind(this)
