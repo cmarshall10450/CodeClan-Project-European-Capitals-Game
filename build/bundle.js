@@ -81,8 +81,10 @@ const app = function() {
       action: {
         label: "Start Game",
         fn: function(){
+          loadQuestion();
           modal.hide();
         }
+
       }
     }
   });
@@ -94,6 +96,17 @@ const initialize = function(lat, lng) {
   let mapDiv = document.getElementById('map');
   countryMap = new MapWrapper(mapDiv, center, 5);
 };
+
+const loadQuestion =  function() {
+  let question = "Where is.....";
+  createCard(question)
+}
+
+const createCard = function(question) {
+  const title = document.querySelector('.title');
+  title.innerHTML = question + "China" + "?";
+
+}
 
 
 
