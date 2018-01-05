@@ -9,18 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url":
-      "git+https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game.git"
+    "url": "git+https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url":
-      "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game/issues"
+    "url": "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game/issues"
   },
-  "homepage":
-    "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game#readme",
+  "homepage": "https://github.com/cmarshall10450/CodeClan-Project-European-Capitals-Game#readme",
   "devDependencies": {
     "nodemon": "^1.14.7",
     "webpack": "^3.10.0"
@@ -29,6 +26,7 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "google-maps": "^3.2.1",
     "mongoose": "^5.0.0-rc1"
   }
 }

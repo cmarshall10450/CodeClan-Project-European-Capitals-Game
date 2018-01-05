@@ -69,6 +69,10 @@
 
 const app = function() {
   console.log('App started');
+
+  const image = document.createElement('div');
+
+  document.querySelector('body').appendChild(image);
 };
 
 document.addEventListener('DOMContentLoaded', app);
