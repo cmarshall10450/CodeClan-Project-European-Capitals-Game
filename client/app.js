@@ -2,13 +2,13 @@ const MapWrapper = require('./MapWrapper');
 
 const app = function() {
   console.log('App started');
-  initialize();
+  initialize(48.21, 16.37);
 };
 
-const initialize = function(latlng) {
-  let center = { lat: 0, lng: 0 };
+const initialize = function(lat, lng) {
+  let center = { lat, lng };
   let mapDiv = document.getElementById('map');
-  let countryMap = new MapWrapper(mapDiv, center, 10);
+  let countryMap = new MapWrapper(mapDiv, center, 5);
 };
 
 document.addEventListener('DOMContentLoaded', app);

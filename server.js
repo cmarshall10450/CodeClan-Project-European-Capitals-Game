@@ -2,8 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const PORT = 5000;
-const MONGO_URL =
-  'mongodb://cmarshall10450:admin@ds147544.mlab.com:47544/european-capitals-game';
+const MONGO_URL = 'mongodb://localhost/european-capitals-game';
 
 const app = express();
 

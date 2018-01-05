@@ -71,13 +71,13 @@ const MapWrapper = __webpack_require__(2);
 
 const app = function() {
   console.log('App started');
-  initialize();
+  initialize(48.21, 16.37);
 };
 
-const initialize = function(latlng) {
-  let center = { lat: 0, lng: 0 };
+const initialize = function(lat, lng) {
+  let center = { lat, lng };
   let mapDiv = document.getElementById('map');
-  let countryMap = new MapWrapper(mapDiv, center, 10);
+  let countryMap = new MapWrapper(mapDiv, center, 5);
 };
 
 document.addEventListener('DOMContentLoaded', app);
@@ -318,16 +318,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root
 
 const GoogleMapsLoader = __webpack_require__(1);
 
-const MapWrapper = function(container, coordinates, zoom, whenmaploaded) {
+const MapWrapper = function(container, coordinates, zoom) {
   GoogleMapsLoader.load(
     function(google) {
       this.google = google; //google object.
       this.googleMap = new google.maps.Map(container, {
         center: coordinates,
         zoom: zoom,
+        styles: [
+          { elementType: 'labels', stylers: [{ visibility: 'off' }] },
+          {
+            featureType: 'administrative.land_parcel',
+            stylers: [{ visibility: 'off' }],
+          },
+          {
+            featureType: 'administrative.neighborhood',
+            stylers: [{ visibility: 'off' }],
+          },
+          { featureType: 'road', stylers: [{ visibility: 'off' }] },
+        ],
       });
       this.markers = [];
 
+      this.googleMap.disableDragging();
       // whenmaploaded();
       // //if this line hits, the map is loaded.
     }.bind(this)
