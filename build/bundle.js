@@ -111,14 +111,14 @@ const MapWrapper = function(container, coordinates, zoom) {
           { featureType: 'road', stylers: [{ visibility: 'off' }] },
         ],
       });
-      this.markers = [];
+      this.marker = null;
 
       google.maps.event.addListener(this.googleMap, 'click', function(event) {
-       console.log(event);
-       console.log(event.latLng);
-       console.log(event.latLng.lat());
-       console.log(event.latLng.lng());
-         this.addMarker(event.latLng);
+       if (this.marker) {
+        this.marker.setPosition(event.latLng);
+       } else {
+        this.addMarker(event.latLng);
+       }
       }.bind(this));
 
       // this.googleMap.disableDragging();
@@ -129,9 +129,9 @@ const MapWrapper = function(container, coordinates, zoom) {
 };
 
 MapWrapper.prototype.addMarker = function(coords) {
-  var marker = new this.google.maps.Marker({
-    position: coords,
-    map: this.googleMap,
+  this.marker = new this.google.maps.Marker({
+    position: {lat: coords.lat(), lng: coords.lng()},
+    map: this.googleMap
   });
 };
 
