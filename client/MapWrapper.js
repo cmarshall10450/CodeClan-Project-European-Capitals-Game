@@ -20,9 +20,17 @@ const MapWrapper = function(container, coordinates, zoom) {
           { featureType: 'road', stylers: [{ visibility: 'off' }] },
         ],
       });
-      this.markers = [];
+      this.marker = null;
 
-      this.googleMap.disableDragging();
+      google.maps.event.addListener(this.googleMap, 'click', function(event) {
+       if (this.marker) {
+        this.marker.setPosition(event.latLng);
+       } else {
+        this.addMarker(event.latLng);
+       }
+      }.bind(this));
+
+      // this.googleMap.disableDragging();
       // whenmaploaded();
       // //if this line hits, the map is loaded.
     }.bind(this)
@@ -30,9 +38,9 @@ const MapWrapper = function(container, coordinates, zoom) {
 };
 
 MapWrapper.prototype.addMarker = function(coords) {
-  var marker = new this.google.maps.Marker({
-    position: coords,
-    map: this.googleMap,
+  this.marker = new this.google.maps.Marker({
+    position: {lat: coords.lat(), lng: coords.lng()},
+    map: this.googleMap
   });
 };
 
