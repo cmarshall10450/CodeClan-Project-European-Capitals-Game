@@ -56,7 +56,7 @@ MongoClient.connect(MONGO_URL, function(err, client) {
   });
 
   app.post('/api/scores', function(req, res) {
-    db.collection('wishlist').insert(req.body, function(err, result) {
+    db.collection('scores').insert(req.body, function(err, result) {
       if (err) {
         console.log(err);
         res.status(500);
@@ -67,6 +67,22 @@ MongoClient.connect(MONGO_URL, function(err, client) {
       res.status(201);
       res.json(result.ops[0]);
     });
+  });
+
+  app.get('/api/scores', function(req, res) {
+    db
+      .collection('scores')
+      .find({})
+      .toArray(function(err, result) {
+        if (err) {
+          console.log(err);
+          res.status(500);
+          res.send();
+          return;
+        }
+
+        res.status(200).json(result);
+      });
   });
 
   console.log('Connected to DB');
