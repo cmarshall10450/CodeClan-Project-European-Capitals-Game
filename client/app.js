@@ -1,6 +1,7 @@
 const MapWrapper = require('./MapWrapper');
 const Modal = require('./Modal');
 let countryMap;
+let scores = [];
 
 const app = function() {
   console.log('App started');
@@ -19,6 +20,7 @@ const app = function() {
     },
   });
   modal.show();
+  request.get(getScores);
 };
 
 const initialize = function(lat, lng) {
@@ -36,5 +38,11 @@ const createCard = function(question) {
   const title = document.querySelector('.title');
   title.innerHTML = question + 'China' + '?';
 };
+
+const getScores = function(allScores)  {
+ allScores.forEach(function(score) {
+    scores.push(score);
+  });
+}
 
 document.addEventListener('DOMContentLoaded', app);

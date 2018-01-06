@@ -11,7 +11,6 @@ Request.prototype.get = function(callback) {
     }
 
     const responseBody = JSON.parse(this.responseText);
-    console.log("Url loaded succesfully");
     callback(responseBody);
   });
   request.send();
