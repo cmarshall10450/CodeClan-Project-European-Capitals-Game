@@ -1,5 +1,5 @@
-const MapWrapper = require('./MapWrapper');
-const Modal = require('./Modal');
+const MapWrapper = require('./models/MapWrapper');
+const Modal = require('./models/Modal');
 let countryMap;
 
 
