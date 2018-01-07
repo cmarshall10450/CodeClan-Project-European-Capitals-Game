@@ -10,6 +10,12 @@ body {
   justify-content: center;
 }
 
+nav {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 20px;
+}
+
 #map {
   height: 100vh;
   width: 100vw;
