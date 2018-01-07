@@ -7,17 +7,17 @@ const body = {
 
 const createScore = function(body) {
  request.post(createRequestComplete, body);
-}
+};
 
 const createRequestComplete = function(score) {
  scoreView.addScore(score);
-}
+};
+
+const getScores = function() {
+ request.get(scoresRequestComplete);
+};
 
 const scoresRequestComplete = function(allScores) {
   allScores.forEach(function(score) {
    scoreView.addQuote(quote);
- });
-
-const getScores = function() {
- request.get(scoresRequestComplete);
-}
+});
