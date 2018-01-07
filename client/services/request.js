@@ -32,4 +32,18 @@ Request.prototype.post = function(body) {
    console.log("Saved to database");
  }
 
+ Request.prototype.getRandomCountry = function() {
+  const request = new XMLHttpRequest();
+  request.open('GET', '/api/countries/random');
+  request.addEventListener('load', function() {
+    if(this.status!==200) {
+      return;
+    }
+
+    const responseBody = JSON.parse(this.responseText);
+
+  });
+  request.send();
+});
+
 module.exports = Request;
