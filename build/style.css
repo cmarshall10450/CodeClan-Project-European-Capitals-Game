@@ -121,3 +121,12 @@ nav {
   max-width: 50%;
   max-height: 200px;
 }
+.modal #final-score {
+  font-size: 4rem;
+  color: red;
+  font-weight: bold;
+}
+.modal #score-title {
+  font-size: 3rem;
+  font-weight: bold;
+}

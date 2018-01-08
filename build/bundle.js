@@ -231,7 +231,7 @@ const createCard = function(country) {
 const gameEnd = function(score){
   modal.set({
     title: "Game Over!",
-    body: `Score ${score}`,
+    body: `<p id='score-title'>Score</p> <p id='final-score'>${score}</p>`,
     buttons: {
       action: {
         label: "Play Again?",
