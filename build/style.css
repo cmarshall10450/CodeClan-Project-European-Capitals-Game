@@ -69,7 +69,7 @@ nav {
   background-color: #fff;
 }
 .modal-body {
-  max-height: 500px;
+  max-height: 65vh;
   margin-bottom: 1rem;
   overflow-y: auto;
 }
