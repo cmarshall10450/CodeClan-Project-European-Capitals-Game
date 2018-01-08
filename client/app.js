@@ -9,6 +9,7 @@ let country;
 let modal;
 
 const MAX_QUESTIONS = 5;
+let questionCount = 0;
 
 const app = function() {
   console.log('App started');
@@ -43,32 +44,45 @@ const initialize = function(lat, lng) {
 
   const playerScore = new Score();
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
-    const countryLocation = [
-      country.geometry.coordinates[1],
-      country.geometry.coordinates[0],
-    ];
+    if (questionCount < MAX_QUESTIONS){
 
-    const distance = geojson.getDistance([attempt, countryLocation]);
 
-    modal.set({
-      title: playerScore.getTitle(distance),
-      body: `
-        <p>${distance} km away.</p>
-        <p>You scored <span>${playerScore.calculate(distance)}</span></p>
-        <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
-        <p class='background-fact'>${country.history}</p>
-      `,
-      buttons: {
-        action: {
-          label: 'Next',
-          fn: function() {
-            modal.hide();
-            loadQuestion();
+      const countryLocation = [
+        country.geometry.coordinates[1],
+        country.geometry.coordinates[0],
+      ];
+
+      const distance = geojson.getDistance([attempt, countryLocation]);
+
+      modal.set({
+        title: playerScore.getTitle(distance),
+        body: `
+          <p>${distance} km away.</p>
+          <p>You scored <span>${playerScore.calculate(distance)}</span></p>
+          <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
+          <p class='background-fact'>${country.history}</p>
+        `,
+        buttons: {
+          action: {
+            label: 'Next',
+            fn: function() {
+              modal.hide();
+              questionCount++;
+              if (questionCount === MAX_QUESTIONS){
+                gameEnd();
+                return;
+              }
+              loadQuestion();
+              console.log(questionCount);
+            },
           },
         },
-      },
-    });
-    modal.show();
+      });
+      modal.show();
+    }
+    else{
+      console.log("Game over");
+    }
   });
 };
 
@@ -86,5 +100,6 @@ const createCard = function(country) {
   const title = document.querySelector('.title');
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
 };
+
 
 document.addEventListener('DOMContentLoaded', app);
