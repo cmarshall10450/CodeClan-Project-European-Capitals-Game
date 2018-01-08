@@ -183,6 +183,7 @@ const initialize = function(lat, lng) {
       modal.set({
         title: playerScore.getTitle(distance),
         body: `
+          <img src='${country.images[0]}'/>
           <p>${distance} km away.</p>
           <p>You scored <span>${playerScore.calculate(distance)}</span></p>
           <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
