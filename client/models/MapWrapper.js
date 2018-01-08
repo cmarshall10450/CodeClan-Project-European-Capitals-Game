@@ -28,12 +28,19 @@ const MapWrapper = function(container, coordinates, zoom) {
        } else {
         this.addMarker(event.latLng);
        }
+       console.log(event.latLng.lat());
+       console.log(event.latLng.lng());
       }.bind(this));
+
+
+
 
       // this.googleMap.disableDragging();
       // whenmaploaded();
       // //if this line hits, the map is loaded.
     }.bind(this)
+
+
   );
 };
 
@@ -42,6 +49,8 @@ MapWrapper.prototype.addMarker = function(coords) {
     position: {lat: coords.lat(), lng: coords.lng()},
     map: this.googleMap
   });
+
+
 };
 
 module.exports = MapWrapper;

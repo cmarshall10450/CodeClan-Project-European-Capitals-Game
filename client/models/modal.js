@@ -48,7 +48,7 @@ Modal.prototype.show = function() {
         this.hide();
       }
     });
-    
+
     if (this.options.buttons) {
       if (this.options.buttons.close) {
         document

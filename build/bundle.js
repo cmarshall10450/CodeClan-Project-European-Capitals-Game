@@ -69,6 +69,7 @@
 
 const MapWrapper = __webpack_require__(1);
 const Modal = __webpack_require__(3);
+const Request = __webpack_require__(4);
 let countryMap;
 
 
@@ -95,7 +96,7 @@ const app = function() {
     },
   });
   modal.show();
-  request.get(getScores);
+  // request.get(getScores);
 };
 
 const initialize = function(lat, lng) {
@@ -106,12 +107,18 @@ const initialize = function(lat, lng) {
 
 const loadQuestion = function() {
   let question = 'Where is.....';
-  createCard(question);
+
+  const request = new Request();
+  const randomCountry = request.getRandomCountry( function(countryInfo) {
+    console.log(countryInfo);
+    createCard(countryInfo);
+  });
+
 };
 
-const createCard = function(question) {
+const createCard = function(country) {
   const title = document.querySelector('.title');
-  title.innerHTML = question + 'China' + '?';
+  title.innerHTML = 'Where is ' + country.properties.capital + '?';
 };
 
 document.addEventListener('DOMContentLoaded', app);
@@ -151,12 +158,19 @@ const MapWrapper = function(container, coordinates, zoom) {
        } else {
         this.addMarker(event.latLng);
        }
+       console.log(event.latLng.lat());
+       console.log(event.latLng.lng());
       }.bind(this));
+
+
+
 
       // this.googleMap.disableDragging();
       // whenmaploaded();
       // //if this line hits, the map is loaded.
     }.bind(this)
+
+
   );
 };
 
@@ -165,6 +179,8 @@ MapWrapper.prototype.addMarker = function(coords) {
     position: {lat: coords.lat(), lng: coords.lng()},
     map: this.googleMap
   });
+
+
 };
 
 module.exports = MapWrapper;
@@ -453,7 +469,7 @@ Modal.prototype.show = function() {
         this.hide();
       }
     });
-    
+
     if (this.options.buttons) {
       if (this.options.buttons.close) {
         document
@@ -487,6 +503,62 @@ Modal.prototype.set = function(options) {
 
 
 module.exports = Modal;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+const Request = function(url) {
+  this.url = url;
+}
+
+Request.prototype.get = function(callback) {
+  const request = new XMLHttpRequest();
+  request.open('GET', this.url);
+  request.addEventListener('load', function() {
+    if(this.status!==200) {
+      return;
+    }
+
+    const responseBody = JSON.parse(this.responseText);
+    callback(responseBody);
+  });
+  request.send();
+}
+
+Request.prototype.post = function(body) {
+   const request = new XMLHttpRequest();
+   request.open('POST', this.url);
+   request.setRequestHeader('Content-Type', 'application/json');
+   request.addEventListener('load', function() {
+     if(this.status!==201) {
+       return;
+     }
+     const responseBody = JSON.parse(this.responseText);
+
+     callback(responseBody);
+   });
+   request.send(body);
+   console.log("Saved to database");
+ }
+
+ Request.prototype.getRandomCountry = function(callback) {
+  const request = new XMLHttpRequest();
+  request.open('GET', '/api/countries/random');
+  request.addEventListener('load', function() {
+    if(this.status!==200) {
+      return;
+    }
+
+    const randomCountry = JSON.parse(this.responseText);
+    callback(randomCountry);
+
+  });
+  request.send();
+};
+
+module.exports = Request;
 
 
 /***/ })

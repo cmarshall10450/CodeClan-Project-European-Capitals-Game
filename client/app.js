@@ -1,5 +1,6 @@
 const MapWrapper = require('./models/MapWrapper');
 const Modal = require('./models/Modal');
+const Request = require('./services/request');
 let countryMap;
 
 
@@ -26,7 +27,7 @@ const app = function() {
     },
   });
   modal.show();
-  request.get(getScores);
+  // request.get(getScores);
 };
 
 const initialize = function(lat, lng) {
@@ -37,12 +38,18 @@ const initialize = function(lat, lng) {
 
 const loadQuestion = function() {
   let question = 'Where is.....';
-  createCard(question);
+
+  const request = new Request();
+  const randomCountry = request.getRandomCountry( function(countryInfo) {
+    console.log(countryInfo);
+    createCard(countryInfo);
+  });
+
 };
 
-const createCard = function(question) {
+const createCard = function(country) {
   const title = document.querySelector('.title');
-  title.innerHTML = question + 'China' + '?';
+  title.innerHTML = 'Where is ' + country.properties.capital + '?';
 };
 
 document.addEventListener('DOMContentLoaded', app);
