@@ -42,6 +42,18 @@ const initialize = function(lat, lng) {
       country.geometry.coordinates[1],
       country.geometry.coordinates[0],
     ];
+
+    const distance = geojson.getDistance([attempt, countryLocation]);
+    modal.set({
+      title: 'You were...',
+      body: `<p>${distance}Km away</p>`,
+      buttons: {
+        action: {
+          
+        }
+      }
+    });
+    modal.show();
   });
 };
 
