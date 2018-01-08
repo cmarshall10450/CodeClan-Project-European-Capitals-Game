@@ -46,12 +46,17 @@ const initialize = function(lat, lng) {
     const distance = geojson.getDistance([attempt, countryLocation]);
     modal.set({
       title: 'You were...',
-      body: `<p>${distance}Km away</p>`,
+      body: `<p>${distance} km away.</p>`,
       buttons: {
         action: {
-          
-        }
-      }
+          label: 'Next',
+          fn: function() {
+            modal.hide();
+            console.log('Next City');
+            loadQuestion();
+          },
+        },
+      },
     });
     modal.show();
   });
