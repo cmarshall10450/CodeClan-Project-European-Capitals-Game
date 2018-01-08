@@ -195,7 +195,7 @@ const initialize = function(lat, lng) {
               modal.hide();
               questionCount++;
               if (questionCount === MAX_QUESTIONS){
-                gameEnd();
+                gameEnd(playerScore.getTotal());
                 return;
               }
               loadQuestion();
@@ -227,10 +227,10 @@ const createCard = function(country) {
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
 };
 
-const gameEnd = function(){
+const gameEnd = function(score){
   modal.set({
     title: "Game Over!",
-    body: "",
+    body: `Score ${score}`,
     buttons: {
       action: {
         label: "Play Again?",
