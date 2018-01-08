@@ -279,7 +279,7 @@ const MapWrapper = function(container, coordinates, zoom, callback) {
 
       google.maps.event.addListener(
         this.googleMap,
-        'click',
+        'dblclick',
         function(event) {
           if (this.marker) {
             this.marker.setPosition(event.latLng);
