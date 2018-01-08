@@ -659,13 +659,13 @@ Score.prototype.calculate = function(distance) {
 Score.prototype.getTitle = function(distance) {
   switch (true) {
     case distance <= 50:
-      return 'Spot on Mate! Banging!';
+      return 'Spot on!';
     case distance > 50 && distance <= 300:
-      return 'Close but nae cigar.';
+      return 'Close but no cigar.';
     case distance > 300 && distance <= 1000:
-      return 'Almost pal.';
+      return 'Almost';
     case distance > 1000:
-      return 'Back tae school wie yae.';
+      return 'Unlucky!';
   }
 };
 
