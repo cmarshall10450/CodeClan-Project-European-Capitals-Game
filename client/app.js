@@ -8,6 +8,8 @@ let countryMap;
 let country;
 let modal;
 
+const MAX_QUESTIONS = 5;
+
 const app = function() {
   console.log('App started');
   initialize(48.21, 16.37);
@@ -46,11 +48,13 @@ const initialize = function(lat, lng) {
 
     const distance = geojson.getDistance([attempt, countryLocation]);
     const playerScore = new Score();
+
     modal.set({
-      title: 'You were...',
+      title: playerScore.getTitle(distance),
       body: `
         <p>${distance} km away.</p>
         <p>You scored ${playerScore.calculate(distance)}</p>
+        <p class='background-fact'>${country.history}</p>
       `,
       buttons: {
         action: {

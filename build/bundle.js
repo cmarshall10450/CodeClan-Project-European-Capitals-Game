@@ -60,22 +60,80 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+const Request = function(url) {
+  this.url = url;
+}
+
+Request.prototype.get = function(callback) {
+  const request = new XMLHttpRequest();
+  request.open('GET', this.url);
+  request.addEventListener('load', function() {
+    if(this.status!==200) {
+      return;
+    }
+
+    const responseBody = JSON.parse(this.responseText);
+    callback(responseBody);
+  });
+  request.send();
+}
+
+Request.prototype.post = function(body) {
+   const request = new XMLHttpRequest();
+   request.open('POST', this.url);
+   request.setRequestHeader('Content-Type', 'application/json');
+   request.addEventListener('load', function() {
+     if(this.status!==201) {
+       return;
+     }
+     const responseBody = JSON.parse(this.responseText);
+
+     callback(responseBody);
+   });
+   request.send(body);
+   console.log("Saved to database");
+ }
+
+ Request.prototype.getRandomCountry = function(callback) {
+  const request = new XMLHttpRequest();
+  request.open('GET', '/api/countries/random');
+  request.addEventListener('load', function() {
+    if(this.status!==200) {
+      return;
+    }
+
+    const randomCountry = JSON.parse(this.responseText);
+    callback(randomCountry);
+
+  });
+  request.send();
+};
+
+module.exports = Request;
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const MapWrapper = __webpack_require__(1);
-const Modal = __webpack_require__(3);
-const Score = __webpack_require__(4);
-const Request = __webpack_require__(5);
+const MapWrapper = __webpack_require__(2);
+const Modal = __webpack_require__(4);
+const Score = __webpack_require__(5);
+const Request = __webpack_require__(0);
 const geojson = __webpack_require__(6);
 
 let countryMap;
 let country;
 let modal;
+
+const MAX_QUESTIONS = 5;
 
 const app = function() {
   console.log('App started');
@@ -115,11 +173,13 @@ const initialize = function(lat, lng) {
 
     const distance = geojson.getDistance([attempt, countryLocation]);
     const playerScore = new Score();
+
     modal.set({
-      title: 'You were...',
+      title: playerScore.getTitle(distance),
       body: `
         <p>${distance} km away.</p>
         <p>You scored ${playerScore.calculate(distance)}</p>
+        <p class='background-fact'>${country.history}</p>
       `,
       buttons: {
         action: {
@@ -154,10 +214,10 @@ document.addEventListener('DOMContentLoaded', app);
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const GoogleMapsLoader = __webpack_require__(2);
+const GoogleMapsLoader = __webpack_require__(3);
 
 const MapWrapper = function(container, coordinates, zoom, callback) {
   GoogleMapsLoader.load(
@@ -215,7 +275,7 @@ module.exports = MapWrapper;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory) {
@@ -444,7 +504,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 const Modal = function(options) {
@@ -534,25 +594,51 @@ module.exports = Modal;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const request = __webpack_require__(5);
+const request = __webpack_require__(0);
 // const scoreView = require('./scoreView.js');
 
-const Score = function() {};
+const Score = function() {
+  this.total = 0;
+};
 
 Score.prototype.calculate = function(distance) {
   switch (true) {
     case distance <= 50:
+      this.increase(1000);
       return 1000;
     case distance > 50 && distance <= 300:
+      this.increase(500);
       return 500;
     case distance > 300 && distance <= 1000:
+      this.increase(100);
       return 100;
     case distance > 1000:
       return 0;
   }
+};
+
+Score.prototype.getTitle = function(distance) {
+  switch (true) {
+    case distance <= 50:
+      return 'Spot on Mate! Banging!';
+    case distance > 50 && distance <= 300:
+      return 'Close but nae cigar.';
+    case distance > 300 && distance <= 1000:
+      return 'Almost pal.';
+    case distance > 1000:
+      return 'Back tae school wie yae.';
+  }
+};
+
+Score.prototype.increase = function(score) {
+  this.score += score;
+};
+
+Score.prototype.getTotal = function() {
+  return this.total;
 };
 
 module.exports = Score;
@@ -577,62 +663,6 @@ module.exports = Score;
 //   allScores.forEach(function(score) {
 //    scoreView.addQuote(quote);
 // });
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-const Request = function(url) {
-  this.url = url;
-}
-
-Request.prototype.get = function(callback) {
-  const request = new XMLHttpRequest();
-  request.open('GET', this.url);
-  request.addEventListener('load', function() {
-    if(this.status!==200) {
-      return;
-    }
-
-    const responseBody = JSON.parse(this.responseText);
-    callback(responseBody);
-  });
-  request.send();
-}
-
-Request.prototype.post = function(body) {
-   const request = new XMLHttpRequest();
-   request.open('POST', this.url);
-   request.setRequestHeader('Content-Type', 'application/json');
-   request.addEventListener('load', function() {
-     if(this.status!==201) {
-       return;
-     }
-     const responseBody = JSON.parse(this.responseText);
-
-     callback(responseBody);
-   });
-   request.send(body);
-   console.log("Saved to database");
- }
-
- Request.prototype.getRandomCountry = function(callback) {
-  const request = new XMLHttpRequest();
-  request.open('GET', '/api/countries/random');
-  request.addEventListener('load', function() {
-    if(this.status!==200) {
-      return;
-    }
-
-    const randomCountry = JSON.parse(this.responseText);
-    callback(randomCountry);
-
-  });
-  request.send();
-};
-
-module.exports = Request;
 
 
 /***/ }),
