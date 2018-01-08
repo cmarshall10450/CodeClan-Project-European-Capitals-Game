@@ -166,6 +166,7 @@ const app = function() {
 const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
+  questionCount = 0;
 
   const playerScore = new Score();
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
@@ -224,6 +225,23 @@ const loadQuestion = function() {
 const createCard = function(country) {
   const title = document.querySelector('.title');
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
+};
+
+const gameEnd = function(){
+  modal.set({
+    title: "Game Over!",
+    body: "",
+    buttons: {
+      action: {
+        label: "Play Again?",
+        fn: function(){
+          modal.hide();
+          initialize(48.21, 16.37);
+        }
+      }
+    }
+  });
+  modal.show();
 };
 
 
