@@ -141,8 +141,8 @@ const app = function() {
   modal = new Modal({
     title: 'Where on Earth? (Europe Edition)',
     body:
-      "The ultimate Country and Capital's game!" +
-      '<p> Guess where the capitals are to win big and learn some fun facts. </p>' +
+      "<div id='sub-title'><p>The ultimate Country and Capital's game!</p>" +
+      '<p> Guess where the capitals are to win big and learn some fun facts. </p></div>' +
       '<h1> How to play </h1>' +
       '<p> 1) Press the start button below. </p>' +
       '<p> 2) When the game starts a city name will show, try and find it on the map. </p>' +

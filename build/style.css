@@ -80,6 +80,9 @@ nav {
   font-size: 20px;
   color: red;
 }
+.modal .background-fact{
+  line-height: 1.5;
+}
 .modal-buttons {
   display: flex;
 }
@@ -104,4 +107,10 @@ nav {
 }
 .btn-action:hover {
   background-color: #007e33;
+}
+.modal #sub-title {
+  margin-top: 1rem; 
+}
+.modal #sub-title p {
+  margin: 0;
 }
