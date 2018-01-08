@@ -1,6 +1,6 @@
 const GoogleMapsLoader = require('google-maps');
 
-const MapWrapper = function(container, coordinates, zoom) {
+const MapWrapper = function(container, coordinates, zoom, callback) {
   GoogleMapsLoader.load(
     function(google) {
       this.google = google; //google object.
@@ -22,13 +22,21 @@ const MapWrapper = function(container, coordinates, zoom) {
       });
       this.marker = null;
 
-      google.maps.event.addListener(this.googleMap, 'click', function(event) {
-       if (this.marker) {
-        this.marker.setPosition(event.latLng);
-       } else {
-        this.addMarker(event.latLng);
-       }
-      }.bind(this));
+      google.maps.event.addListener(
+        this.googleMap,
+        'click',
+        function(event) {
+          if (this.marker) {
+            this.marker.setPosition(event.latLng);
+          } else {
+            this.addMarker(event.latLng);
+          }
+
+          const attempt = [event.latLng.lat(), event.latLng.lng()];
+
+          callback(attempt);
+        }.bind(this)
+      );
 
       // this.googleMap.disableDragging();
       // whenmaploaded();
@@ -39,8 +47,8 @@ const MapWrapper = function(container, coordinates, zoom) {
 
 MapWrapper.prototype.addMarker = function(coords) {
   this.marker = new this.google.maps.Marker({
-    position: {lat: coords.lat(), lng: coords.lng()},
-    map: this.googleMap
+    position: { lat: coords.lat(), lng: coords.lng() },
+    map: this.googleMap,
   });
 };
 
