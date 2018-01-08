@@ -69,8 +69,10 @@
 
 const MapWrapper = __webpack_require__(1);
 const Modal = __webpack_require__(3);
-const Request = __webpack_require__(4);
-const geojson = __webpack_require__(5);
+const Score = __webpack_require__(4);
+const Request = __webpack_require__(5);
+const geojson = __webpack_require__(6);
+
 let countryMap;
 let country;
 let modal;
@@ -106,22 +108,24 @@ const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
-    console.log(attempt);
     const countryLocation = [
       country.geometry.coordinates[1],
       country.geometry.coordinates[0],
     ];
 
     const distance = geojson.getDistance([attempt, countryLocation]);
+    const playerScore = new Score();
     modal.set({
       title: 'You were...',
-      body: `<p>${distance} km away.</p>`,
+      body: `
+        <p>${distance} km away.</p>
+        <p>You scored ${playerScore.calculate(distance)}</p>
+      `,
       buttons: {
         action: {
           label: 'Next',
           fn: function() {
             modal.hide();
-            console.log('Next City');
             loadQuestion();
           },
         },
@@ -531,6 +535,52 @@ module.exports = Modal;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const request = __webpack_require__(5);
+// const scoreView = require('./scoreView.js');
+
+const Score = function() {};
+
+Score.prototype.calculate = function(distance) {
+  switch (true) {
+    case distance <= 50:
+      return 1000;
+    case distance > 50 && distance <= 300:
+      return 500;
+    case distance > 300 && distance <= 1000:
+      return 100;
+    case distance > 1000:
+      return 0;
+  }
+};
+
+module.exports = Score;
+
+// const body = {
+//   score: 0
+// };
+
+// const createScore = function(body) {
+//  request.post(createRequestComplete, body);
+// };
+
+// const createRequestComplete = function(score) {
+//  scoreView.addScore(score);
+// };
+
+// const getScores = function() {
+//  request.get(scoresRequestComplete);
+// };
+
+// const scoresRequestComplete = function(allScores) {
+//   allScores.forEach(function(score) {
+//    scoreView.addQuote(quote);
+// });
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 const Request = function(url) {
@@ -586,13 +636,13 @@ module.exports = Request;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(6);
+module.exports = __webpack_require__(7);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -605,7 +655,7 @@ module.exports = __webpack_require__(6);
 /*
  * Required dependencies
  */
-var _ = __webpack_require__(7);
+var _ = __webpack_require__(8);
 
 
 /**
@@ -1210,7 +1260,7 @@ exports.isGeoJSON = isGeoJSON;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3

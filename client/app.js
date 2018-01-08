@@ -1,7 +1,9 @@
 const MapWrapper = require('./models/MapWrapper');
 const Modal = require('./models/Modal');
+const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
+
 let countryMap;
 let country;
 let modal;
@@ -37,22 +39,24 @@ const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
-    console.log(attempt);
     const countryLocation = [
       country.geometry.coordinates[1],
       country.geometry.coordinates[0],
     ];
 
     const distance = geojson.getDistance([attempt, countryLocation]);
+    const playerScore = new Score();
     modal.set({
       title: 'You were...',
-      body: `<p>${distance} km away.</p>`,
+      body: `
+        <p>${distance} km away.</p>
+        <p>You scored ${playerScore.calculate(distance)}</p>
+      `,
       buttons: {
         action: {
           label: 'Next',
           fn: function() {
             modal.hide();
-            console.log('Next City');
             loadQuestion();
           },
         },
