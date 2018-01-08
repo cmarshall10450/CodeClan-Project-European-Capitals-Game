@@ -17,7 +17,7 @@ nav {
 }
 
 #map {
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
   position: absolute;
   top: 50px;
@@ -70,6 +70,15 @@ nav {
 }
 .modal-body {
   margin-bottom: 1rem;
+}
+.modal p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.modal span{
+  font-weight: bold;
+  font-size: 20px;
+  color: red;
 }
 .modal-buttons {
   display: flex;

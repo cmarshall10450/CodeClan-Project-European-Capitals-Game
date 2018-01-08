@@ -54,8 +54,8 @@ const initialize = function(lat, lng) {
       title: playerScore.getTitle(distance),
       body: `
         <p>${distance} km away.</p>
-        <p>You scored ${playerScore.calculate(distance)}</p>
-        <p>Your total so far is ${playerScore.getTotal()}</p>
+        <p>You scored <span>${playerScore.calculate(distance)}</span></p>
+        <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
         <p class='background-fact'>${country.history}</p>
       `,
       buttons: {
