@@ -35,7 +35,7 @@ Score.prototype.getTitle = function(distance) {
 };
 
 Score.prototype.increase = function(score) {
-  this.score += score;
+  this.total += score;
 };
 
 Score.prototype.getTotal = function() {

@@ -40,6 +40,8 @@ const app = function() {
 const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
+
+  const playerScore = new Score();
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     const countryLocation = [
       country.geometry.coordinates[1],
@@ -47,13 +49,13 @@ const initialize = function(lat, lng) {
     ];
 
     const distance = geojson.getDistance([attempt, countryLocation]);
-    const playerScore = new Score();
 
     modal.set({
       title: playerScore.getTitle(distance),
       body: `
         <p>${distance} km away.</p>
         <p>You scored ${playerScore.calculate(distance)}</p>
+        <p>Your total so far is ${playerScore.getTotal()}</p>
         <p class='background-fact'>${country.history}</p>
       `,
       buttons: {
