@@ -124,7 +124,7 @@ const gameEnd = function(score){
       close: {
         label: "Show Scores",
         fn: function(){
-          getScores();
+
           modal.hide();
           modal.set({
             title: "Leader Board",
@@ -137,6 +137,7 @@ const gameEnd = function(score){
     }
   });
   playerScore.saveScore();
+  getScores();
   modal.show();
 };
 
@@ -151,11 +152,26 @@ const getScores = function(){
 };
 
 const createLeaderboard = function(scores) {
-  // const table = document.createElement('table');
-  // console.log(table);
-  return "<table></table>"
+  const table = `
+  <h1 id="score-board">Name : Score<h1>
+  ${populateScores(scores)}
+
+
+
+ `;
+ return table;
+};
+
+const populateScores = function(scores) {
+  let scoreList = "";
+  scores.forEach(function(score){
+    scoreList += `<p>${score.name} : ${score.score}</p>`
+
+  });
+  return scoreList;
 
 }
+
 
 
 document.addEventListener('DOMContentLoaded', app);
