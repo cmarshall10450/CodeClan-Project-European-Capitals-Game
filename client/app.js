@@ -48,6 +48,7 @@ const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
   questionCount = 0;
+  getScores();
 
 
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
@@ -128,6 +129,13 @@ const gameEnd = function(score){
   playerScore.saveScore();
   console.log(playerScore);
   modal.show();
+};
+
+const getScores =function(){
+  const request = new Request("http://localhost:5000/api/scores");
+  request.get(function(body){
+    console.log(body);
+  });
 };
 
 
