@@ -4,8 +4,10 @@ const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
 
+
 let countryMap;
 let country;
+let currentWeather;
 let modal;
 let playerScore;
 let playerName;
@@ -15,6 +17,7 @@ const MAX_QUESTIONS = 5;
 let questionCount = 0;
 
 const app = function() {
+
   initialize(48.21, 16.37);
   modal = new Modal({
     title: 'Where on Earth? (Europe Edition)',
@@ -49,7 +52,6 @@ const initialize = function(lat, lng) {
   questionCount = 0;
   getScores();
 
-
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -67,6 +69,7 @@ const initialize = function(lat, lng) {
         title: playerScore.getTitle(distance),
         body: `
           <img src='${country.images[0]}'/>
+          <p>${currentWeather}</p>
           <p>${distance} km away.</p>
           <p>You scored <span>${playerScore.calculate(distance)}</span></p>
           <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
@@ -107,6 +110,10 @@ const loadQuestion = function() {
 const createCard = function(country) {
   const title = document.querySelector('.title');
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
+  const request = new Request(`http://api.openweathermap.org/data/2.5/weather?q=${country.properties.capital}&units=metric&APPID=4d395766733b9a8d94c94baa063152f1`)
+  request.get(function(body) {
+   currentWeather = 'Temperature: ' + body.main.temp + '°';
+  });
 };
 
 const gameEnd = function(score){
