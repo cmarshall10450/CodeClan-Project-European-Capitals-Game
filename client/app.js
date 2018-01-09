@@ -99,7 +99,7 @@ const initialize = function(lat, lng) {
 
              modal.hide();
              modal.set({
-               title: "News",
+               title: `News for ${country.properties.country}`,
                body: createNewsboard(news),
              });
              modal.show();
