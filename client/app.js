@@ -3,6 +3,7 @@ const Modal = require('./models/Modal');
 const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
+const speech = window.speechSynthesis;
 
 let countryMap;
 let country;
@@ -77,6 +78,7 @@ const initialize = function(lat, lng) {
             label: 'Next',
             fn: function() {
               modal.hide();
+              speech.cancel();
               questionCount++;
               if (questionCount === MAX_QUESTIONS){
                 gameEnd(playerScore.getTotal());
@@ -88,6 +90,10 @@ const initialize = function(lat, lng) {
         },
       });
       modal.show();
+      console.log(speech.getVoices());
+      const readText = new SpeechSynthesisUtterance(country.history);
+      readText.voice = speech.getVoices()[0];
+      speech.speak(readText);
     }
     else{
     }
