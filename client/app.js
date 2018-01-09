@@ -199,7 +199,7 @@ const populateScores = function(scores) {
 };
 
 const getNews = function(country) {
- const request = new Request('https://newsapi.org/v2/everything?page=5&sortBy=relevancy&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
+ const request = new Request('https://newsapi.org/v2/everything?page=5&sortBy=relevancy&language=en&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
 
  request.get(function(body) {
   console.log(country.properties.country);
