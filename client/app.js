@@ -95,7 +95,7 @@ const initialize = function(lat, lng) {
       modal.show();
       console.log(speech.getVoices());
       const readText = new SpeechSynthesisUtterance(country.history);
-      readText.voice = speech.getVoices()[0];
+      // readText.voice = speech.getVoices()[Math.floor(Math.random() * speech.getVoices().length)];
       speech.speak(readText);
     }
     else{
