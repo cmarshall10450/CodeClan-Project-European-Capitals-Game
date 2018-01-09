@@ -95,6 +95,7 @@ MongoClient.connect(MONGO_URL, function(err, client) {
     }
 
     res.status(204);
+    res.send();
   });
 });
 

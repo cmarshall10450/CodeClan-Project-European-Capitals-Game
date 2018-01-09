@@ -134,12 +134,12 @@ let country;
 let modal;
 let playerScore;
 let playerName;
+let scores;
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
 
 const app = function() {
-  console.log('App started');
   initialize(48.21, 16.37);
   modal = new Modal({
     title: 'Where on Earth? (Europe Edition)',
@@ -158,7 +158,6 @@ const app = function() {
         fn: function() {
           playerName = document.querySelector('#name').value;
           playerScore = new Score(playerName);
-          console.log(playerScore);
           loadQuestion();
           modal.hide();
         },
@@ -209,7 +208,6 @@ const initialize = function(lat, lng) {
                 return;
               }
               loadQuestion();
-              console.log(questionCount);
             },
           },
         },
@@ -217,7 +215,6 @@ const initialize = function(lat, lng) {
       modal.show();
     }
     else{
-      console.log("Game over");
     }
   });
 };
@@ -252,23 +249,30 @@ const gameEnd = function(score){
       close: {
         label: "Show Scores",
         fn: function(){
-          getScores()
-          console.log("hfhyf");
+          getScores();
+          modal.hide();
+          modal.set({
+            title: "Leader Board",
+            body: scores,
+          });
+          modal.show();
         }
       }
 
     }
   });
   playerScore.saveScore();
-  console.log(playerScore);
   modal.show();
 };
 
-const getScores =function(){
+const getScores = function(){
   const request = new Request("http://localhost:5000/api/scores");
   request.get(function(body){
-    console.log(body);
+    scores = body;
+  console.log(scores);
   });
+  console.log(scores);
+
 };
 
 
