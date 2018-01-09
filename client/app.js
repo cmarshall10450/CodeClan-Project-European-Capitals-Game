@@ -210,19 +210,15 @@ const getNews = function(country) {
 const populateNews = function(news) {
   let newsList = "";
   news.forEach(function(thisNew){
-    newsList += `<p>${thisNew.title} : ${thisNew.score}</p>`
-
+    newsList += `<p>${thisNew.title}</p>`
   });
   return newsList;
 };
 
 const createNewsboard = function(news) {
+ // <h1 id="news-board">Latest News<h1>
   const table = `
-  <h1 id="news-board">Name : News<h1>
   ${populateNews(news.articles)}
-
-
-
  `;
  return table;
 };
