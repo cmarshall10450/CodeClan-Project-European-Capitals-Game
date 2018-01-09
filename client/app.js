@@ -7,7 +7,7 @@ const geojson = require('geojson-tools');
 let countryMap;
 let country;
 let modal;
-let playerScore = new Score();
+let playerScore;
 let playerName;
 
 const MAX_QUESTIONS = 5;
@@ -32,7 +32,8 @@ const app = function() {
         label: 'Start Game',
         fn: function() {
           playerName = document.querySelector('#name').value;
-          console.log(playerName);
+          playerScore = new Score(playerName);
+          console.log(playerScore);
           loadQuestion();
           modal.hide();
         },

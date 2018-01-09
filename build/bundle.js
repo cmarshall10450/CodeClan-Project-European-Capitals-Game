@@ -97,7 +97,7 @@ Request.prototype.post = function(body) {
 
      // callback(responseBody);
    });
-   request.send(JSON.stringify({score: body}));
+   request.send(JSON.stringify({score: body.score, name: body.name}));
    console.log("Saved to database");
  }
 
@@ -132,7 +132,7 @@ const geojson = __webpack_require__(6);
 let countryMap;
 let country;
 let modal;
-let playerScore = new Score();
+let playerScore;
 let playerName;
 
 const MAX_QUESTIONS = 5;
@@ -157,7 +157,8 @@ const app = function() {
         label: 'Start Game',
         fn: function() {
           playerName = document.querySelector('#name').value;
-          console.log(playerName);
+          playerScore = new Score(playerName);
+          console.log(playerScore);
           loadQuestion();
           modal.hide();
         },
@@ -645,8 +646,9 @@ module.exports = Modal;
 const Request = __webpack_require__(0);
 // const scoreView = require('./scoreView.js');
 
-const Score = function() {
+const Score = function(name) {
   this.total = 0;
+  this.name = name;
 };
 
 Score.prototype.calculate = function(distance) {
@@ -688,7 +690,7 @@ Score.prototype.getTotal = function() {
 
 Score.prototype.saveScore = function() {
   const request = new Request('http://localhost:5000/api/scores');
-  request.post(this.total);
+  request.post({score: this.total, name: this.name});
 };
 
 module.exports = Score;
