@@ -95,9 +95,9 @@ Request.prototype.post = function(body) {
      }
      const responseBody = JSON.parse(this.responseText);
 
-     callback(responseBody);
+     // callback(responseBody);
    });
-   request.send(body);
+   request.send(JSON.stringify({score: body}));
    console.log("Saved to database");
  }
 
@@ -132,6 +132,7 @@ const geojson = __webpack_require__(6);
 let countryMap;
 let country;
 let modal;
+let playerScore = new Score();
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
@@ -168,7 +169,7 @@ const initialize = function(lat, lng) {
   let mapDiv = document.getElementById('map');
   questionCount = 0;
 
-  const playerScore = new Score();
+
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -179,6 +180,8 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
+
+      // countryMap.addMarker(countryLocation);
 
       modal.set({
         title: playerScore.getTitle(distance),
@@ -242,6 +245,8 @@ const gameEnd = function(score){
       }
     }
   });
+  playerScore.saveScore();
+  console.log(playerScore);
   modal.show();
 };
 
@@ -633,7 +638,7 @@ module.exports = Modal;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const request = __webpack_require__(0);
+const Request = __webpack_require__(0);
 // const scoreView = require('./scoreView.js');
 
 const Score = function() {
@@ -675,6 +680,11 @@ Score.prototype.increase = function(score) {
 
 Score.prototype.getTotal = function() {
   return this.total;
+};
+
+Score.prototype.saveScore = function() {
+  const request = new Request('http://localhost:5000/api/scores');
+  request.post(this.total);
 };
 
 module.exports = Score;

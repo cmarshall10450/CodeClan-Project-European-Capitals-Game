@@ -7,6 +7,7 @@ const geojson = require('geojson-tools');
 let countryMap;
 let country;
 let modal;
+let playerScore = new Score();
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
@@ -43,7 +44,7 @@ const initialize = function(lat, lng) {
   let mapDiv = document.getElementById('map');
   questionCount = 0;
 
-  const playerScore = new Score();
+
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -54,6 +55,8 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
+
+      // countryMap.addMarker(countryLocation);
 
       modal.set({
         title: playerScore.getTitle(distance),
@@ -117,6 +120,8 @@ const gameEnd = function(score){
       }
     }
   });
+  playerScore.saveScore();
+  console.log(playerScore);
   modal.show();
 };
 

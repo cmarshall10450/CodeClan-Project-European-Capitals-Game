@@ -26,9 +26,9 @@ Request.prototype.post = function(body) {
      }
      const responseBody = JSON.parse(this.responseText);
 
-     callback(responseBody);
+     // callback(responseBody);
    });
-   request.send(body);
+   request.send(JSON.stringify({score: body}));
    console.log("Saved to database");
  }
 
