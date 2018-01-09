@@ -13,6 +13,7 @@ let modal;
 let playerScore;
 let playerName;
 let scores;
+let news;
 
 
 const MAX_QUESTIONS = 5;
@@ -54,6 +55,7 @@ const initialize = function(lat, lng) {
   questionCount = 0;
   getScores();
 
+
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -64,7 +66,7 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
-
+        getNews(country);
       // countryMap.addMarker(countryLocation);
 
       modal.set({
@@ -98,7 +100,7 @@ const initialize = function(lat, lng) {
              modal.hide();
              modal.set({
                title: "News",
-               body: getNews(country),
+               body: createNewsboard(news),
              });
              modal.show();
            }
@@ -174,8 +176,6 @@ const getScores = function(){
     scores = body;
     console.log(scores);
   });
-  console.log(scores);
-
 };
 
 const createLeaderboard = function(scores) {
@@ -202,13 +202,30 @@ const getNews = function(country) {
  const request = new Request('https://newsapi.org/v2/everything?page=5&sortBy=relevancy&language=en&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
 
  request.get(function(body) {
-  console.log(country.properties.country);
-  console.log(country.properties.capital);
-
+  news = body;
   console.log(body);
  });
-}
+};
 
+const populateNews = function(news) {
+  let newsList = "";
+  news.forEach(function(thisNew){
+    newsList += `<p>${thisNew.title} : ${thisNew.score}</p>`
+
+  });
+  return newsList;
+};
+
+const createNewsboard = function(news) {
+  const table = `
+  <h1 id="news-board">Name : News<h1>
+  ${populateNews(news.articles)}
+
+
+
+ `;
+ return table;
+};
 
 
 document.addEventListener('DOMContentLoaded', app);
