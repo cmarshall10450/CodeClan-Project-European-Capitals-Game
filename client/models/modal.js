@@ -27,6 +27,7 @@ Modal.prototype.build = function(data) {
 
   const modalClose = document.createElement('div');
   modalClose.classList.add('modal-close');
+  modalClose.innerText = 'X';
   modal.appendChild(modalClose);
 
   const modalHeader = document.createElement('div');
@@ -49,7 +50,26 @@ Modal.prototype.build = function(data) {
 
 
 
-//   if (this.options.buttons) {
+  if (this.options.buttons) {
+    const buttons =  document.createElement('div');
+    buttons.classList.add('modal-buttons');
+    if (this.options.buttons.close) {
+      const buttonClose = document.createElement('button');
+      buttonClose.classList.add('modal-button');
+      buttonClose.classList.add('btn-close');
+      buttonClose.innerText = this.options.buttons.close.label;
+      buttons.appendChild(buttonClose);
+    }
+
+    if (this.options.buttons.action) {
+      const buttonAction = document.createElement('button');
+      buttonAction.classList.add('modal-button');
+      buttonAction.classList.add('btn-action');
+      buttonAction.innerText = this.options.buttons.action.label;
+      buttons.appendChild(buttonAction);
+    }
+    modal.appendChild(buttons);
+  };
 //     html += `<div class="modal-buttons">`;
 //     if (this.options.buttons.close) {
 //       html += `
