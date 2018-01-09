@@ -85,6 +85,19 @@ MongoClient.connect(MONGO_URL, function(err, client) {
       });
   });
 
+  app.delete('/api/scores', function(req, res) {
+  db.collection('scores').remove({}, function(err, result) {
+    if (err) {
+      console.log(err);
+      res.status(500);
+      res.send();
+      return;
+    }
+
+    res.status(204);
+  });
+});
+
   console.log('Connected to DB');
   console.log('Starting server...');
 
