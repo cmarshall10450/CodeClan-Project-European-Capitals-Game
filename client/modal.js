@@ -14,7 +14,7 @@ Modal.prototype.build = function(data) {
       </div>
       <hr/>
       <div class="modal-body">
-        ${data.body}
+
       </div>
   `;
   if (this.options.buttons) {
@@ -36,6 +36,7 @@ Modal.prototype.build = function(data) {
   html += `</div>`;
   modal.classList.add('modal-wrapper');
   modal.innerHTML = html;
+  document.querySelector('.modal-body').appendChild(data.body);
   return modal;
 };
 Modal.prototype.show = function() {

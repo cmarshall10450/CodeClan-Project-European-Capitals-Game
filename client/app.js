@@ -128,7 +128,7 @@ const gameEnd = function(score){
           modal.hide();
           modal.set({
             title: "Leader Board",
-            body: scores,
+            body: createLeaderboard(scores),
           });
           modal.show();
         }
@@ -144,11 +144,18 @@ const getScores = function(){
   const request = new Request("http://localhost:5000/api/scores");
   request.get(function(body){
     scores = body;
-  console.log(scores);
+    console.log(scores);
   });
   console.log(scores);
 
 };
+
+const createLeaderboard = function(scores) {
+  // const table = document.createElement('table');
+  // console.log(table);
+  return "<table></table>"
+
+}
 
 
 document.addEventListener('DOMContentLoaded', app);
