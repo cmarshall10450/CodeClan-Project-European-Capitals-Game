@@ -7,12 +7,14 @@ const geojson = require('geojson-tools');
 let countryMap;
 let country;
 let modal;
+let playerScore;
+let playerName;
+let scores;
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
 
 const app = function() {
-  console.log('App started');
   initialize(48.21, 16.37);
   modal = new Modal({
     title: 'Where on Earth? (Europe Edition)',
@@ -20,14 +22,17 @@ const app = function() {
       "<div id='sub-title'><p>The ultimate Country and Capital's game!</p>" +
       '<p> Guess where the capitals are to win big and learn some fun facts. </p></div>' +
       '<h1> How to play </h1>' +
-      '<p> 1) Press the start button below. </p>' +
+      '<p> 1) Enter your name then press the start button below. </p>' +
       '<p> 2) When the game starts a city name will show, try and find it on the map. </p>' +
       '<p> 3) Click and place your marker where you think it is. </p>' +
-      '<p> 4) See how close you got and your score. </p>',
+      '<p> 4) See how close you got and your score. </p>' +
+      "<form><input id='name' placeholder='Enter name here'></form>",
     buttons: {
       action: {
         label: 'Start Game',
         fn: function() {
+          playerName = document.querySelector('#name').value;
+          playerScore = new Score(playerName);
           loadQuestion();
           modal.hide();
         },
@@ -42,8 +47,9 @@ const initialize = function(lat, lng) {
   let center = { lat, lng };
   let mapDiv = document.getElementById('map');
   questionCount = 0;
+  getScores();
 
-  const playerScore = new Score();
+
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -54,6 +60,8 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
+
+      // countryMap.addMarker(countryLocation);
 
       modal.set({
         title: playerScore.getTitle(distance),
@@ -75,7 +83,6 @@ const initialize = function(lat, lng) {
                 return;
               }
               loadQuestion();
-              console.log(questionCount);
             },
           },
         },
@@ -83,7 +90,6 @@ const initialize = function(lat, lng) {
       modal.show();
     }
     else{
-      console.log("Game over");
     }
   });
 };
@@ -113,12 +119,60 @@ const gameEnd = function(score){
         fn: function(){
           modal.hide();
           initialize(48.21, 16.37);
+          playerScore.total = 0;
+        }
+      },
+      close: {
+        label: "Show Scores",
+        fn: function(){
+
+          modal.hide();
+          modal.set({
+            title: "Leader Board",
+            body: createLeaderboard(scores),
+          });
+          modal.show();
         }
       }
+
     }
   });
+  playerScore.saveScore();
+  getScores();
   modal.show();
 };
+
+const getScores = function(){
+  const request = new Request("http://localhost:5000/api/scores");
+  request.get(function(body){
+    scores = body;
+    console.log(scores);
+  });
+  console.log(scores);
+
+};
+
+const createLeaderboard = function(scores) {
+  const table = `
+  <h1 id="score-board">Name : Score<h1>
+  ${populateScores(scores)}
+
+
+
+ `;
+ return table;
+};
+
+const populateScores = function(scores) {
+  let scoreList = "";
+  scores.forEach(function(score){
+    scoreList += `<p>${score.name} : ${score.score}</p>`
+
+  });
+  return scoreList;
+
+}
+
 
 
 document.addEventListener('DOMContentLoaded', app);

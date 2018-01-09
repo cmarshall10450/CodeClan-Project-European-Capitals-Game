@@ -1,8 +1,9 @@
-const request = require('./services/request.js');
+const Request = require('./services/request.js');
 // const scoreView = require('./scoreView.js');
 
-const Score = function() {
+const Score = function(name) {
   this.total = 0;
+  this.name = name;
 };
 
 Score.prototype.calculate = function(distance) {
@@ -40,6 +41,11 @@ Score.prototype.increase = function(score) {
 
 Score.prototype.getTotal = function() {
   return this.total;
+};
+
+Score.prototype.saveScore = function() {
+  const request = new Request('http://localhost:5000/api/scores');
+  request.post({score: this.total, name: this.name});
 };
 
 module.exports = Score;
