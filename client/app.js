@@ -119,6 +119,7 @@ const gameEnd = function(score){
         fn: function(){
           modal.hide();
           initialize(48.21, 16.37);
+          playerScore.total = 0;
         }
       },
       close: {
