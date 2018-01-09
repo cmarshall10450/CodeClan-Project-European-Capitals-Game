@@ -123,7 +123,15 @@ const gameEnd = function(score){
           modal.hide();
           initialize(48.21, 16.37);
         }
+      },
+      close: {
+        label: "Show Scores",
+        fn: function(){
+          getScores()
+          console.log("hfhyf");
+        }
       }
+
     }
   });
   playerScore.saveScore();
