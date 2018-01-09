@@ -14,6 +14,7 @@ let playerScore;
 let playerName;
 let scores;
 
+
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
 
@@ -97,7 +98,7 @@ const initialize = function(lat, lng) {
              modal.hide();
              modal.set({
                title: "News",
-               body: "news",
+               body: getNews(country),
              });
              modal.show();
            }
@@ -195,7 +196,17 @@ const populateScores = function(scores) {
 
   });
   return scoreList;
+};
 
+const getNews = function(country) {
+ const request = new Request('https://newsapi.org/v2/everything?' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
+
+ request.get(function(body) {
+  console.log(country.properties.country);
+  console.log(country.properties.capital);
+
+  console.log(body);
+ });
 }
 
 
