@@ -90,6 +90,18 @@ const initialize = function(lat, lng) {
               loadQuestion();
             },
           },
+          close: {
+           label: "Show News",
+           fn: function(){
+
+             modal.hide();
+             modal.set({
+               title: "News",
+               body: "news",
+             });
+             modal.show();
+           }
+          }
         },
       });
       modal.show();
