@@ -95,13 +95,13 @@ return modalWrapper
 Modal.prototype.show = function() {
   if (!this.visible) {
     document.querySelector('body').appendChild(this.build(this.options));
-    document.querySelector('.modal-close').addEventListener('click', () => {
-      if (this.options.onClose) {
-        this.options.onClose();
-      } else {
-        this.hide();
-      }
-    });
+    // document.querySelector('.modal-close').addEventListener('click', () => {
+    //   if (this.options.onClose) {
+    //     this.options.onClose();
+    //   } else {
+    //     this.hide();
+    //   }
+    // });
 
     if (this.options.buttons) {
       if (this.options.buttons.close) {
