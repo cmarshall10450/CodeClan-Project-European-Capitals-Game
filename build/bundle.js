@@ -133,6 +133,7 @@ let countryMap;
 let country;
 let modal;
 let playerScore = new Score();
+let playerName;
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
@@ -146,14 +147,17 @@ const app = function() {
       "<div id='sub-title'><p>The ultimate Country and Capital's game!</p>" +
       '<p> Guess where the capitals are to win big and learn some fun facts. </p></div>' +
       '<h1> How to play </h1>' +
-      '<p> 1) Press the start button below. </p>' +
+      '<p> 1) Enter your name then press the start button below. </p>' +
       '<p> 2) When the game starts a city name will show, try and find it on the map. </p>' +
       '<p> 3) Click and place your marker where you think it is. </p>' +
-      '<p> 4) See how close you got and your score. </p>',
+      '<p> 4) See how close you got and your score. </p>' +
+      "<form><input id='name' placeholder='Enter name here'></form>",
     buttons: {
       action: {
         label: 'Start Game',
         fn: function() {
+          playerName = document.querySelector('#name').value;
+          console.log(playerName);
           loadQuestion();
           modal.hide();
         },
