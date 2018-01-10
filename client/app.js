@@ -67,7 +67,9 @@ const initialize = function(lat, lng) {
 
       const distance = geojson.getDistance([attempt, countryLocation]);
         // getNews(country);
-      // countryMap.addMarker(countryLocation);
+        countryMap.setCapitalMarker(countryLocation);
+        
+
 
       modal.set({
         title: playerScore.getTitle(distance),
@@ -112,6 +114,7 @@ const initialize = function(lat, lng) {
       const readText = new SpeechSynthesisUtterance(country.history);
       readText.voice = speech.getVoices()[0];
       speech.speak(readText);
+
     }
     else{
     }
