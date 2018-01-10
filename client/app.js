@@ -160,20 +160,6 @@ const gameEnd = function(score){
           playerScore.total = 0;
         }
       },
-<<<<<<< HEAD
-      // close: {
-      //   label: "Show Scores",
-      //   fn: function(){
-      //
-      //     modal.hide();
-      //     modal.set({
-      //       title: "Leader Board",
-      //       body: scoreView.createLeaderboard(scores),
-      //     });
-      //     modal.show();
-      //   }
-      // }
-=======
       close: {
         label: "Show Scores",
         fn: function(){
@@ -195,7 +181,6 @@ const gameEnd = function(score){
           modal.show();
         }
       }
->>>>>>> 31-clean-code
 
     }
   });
