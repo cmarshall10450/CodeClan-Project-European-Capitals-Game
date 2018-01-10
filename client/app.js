@@ -5,6 +5,7 @@ const Request = require('./services/request');
 const geojson = require('geojson-tools');
 const speech = window.speechSynthesis;
 const ScoreView = require('./views/scoreView');
+const NewsView = require('./views/newsView');
 
 
 let countryMap;
@@ -195,21 +196,6 @@ const getScores = function(){
 //  });
 // };
 
-const populateNews = function(news) {
-  let newsList = "";
-  news.forEach(function(thisNew){
-    newsList += `<p>${thisNew.title} : <a href=${thisNew.url}>see more</a></p>`
-  });
-  return newsList;
-};
-
-const createNewsboard = function(news) {
- // <h1 id="news-board">Latest News<h1>
-  const table = `
-  ${populateNews(news.articles)}
- `;
- return table;
-};
 
 
 document.addEventListener('DOMContentLoaded', app);
