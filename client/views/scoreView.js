@@ -1,10 +1,10 @@
 const scoreView = function() {
  this.scores = [];
-};
 
 scoreView.prototype.addScore = function(score) {
  this.scores.push(score);
-};
+ };
+
 
 scoreView.prototype.createLeaderboard = function(scores) {
   const table = `
@@ -12,14 +12,16 @@ scoreView.prototype.createLeaderboard = function(scores) {
   ${populateScores(scores)}
  `;
  return table;
-};
+ };
 
-scoreView.prototype.populateScores = function(scores) {
+ const populateScores = function(scores) {
   let scoreList = "";
   scores.forEach(function(score){
-    scoreList += `<p>${score.name} : ${score.score}</p>`
+   scoreList += `<p>${score.name} : ${score.score}</p>`
   });
   return scoreList;
+ };
 };
+
 
 module.exports = scoreView;
