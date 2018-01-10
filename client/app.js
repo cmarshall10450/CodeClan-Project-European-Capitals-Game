@@ -5,7 +5,6 @@ const Request = require('./services/request');
 const geojson = require('geojson-tools');
 const speech = window.speechSynthesis;
 
-
 let countryMap;
 let country;
 let currentWeather;
@@ -18,7 +17,6 @@ const MAX_QUESTIONS = 5;
 let questionCount = 0;
 
 const app = function() {
-
   initialize(48.21, 16.37);
   modal = new Modal({
     title: 'Where on Earth? (Europe Edition)',
@@ -54,9 +52,7 @@ const initialize = function(lat, lng) {
   getScores();
 
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
-    if (questionCount < MAX_QUESTIONS){
-
-
+    if (questionCount < MAX_QUESTIONS) {
       const countryLocation = [
         country.geometry.coordinates[1],
         country.geometry.coordinates[0],
@@ -83,7 +79,7 @@ const initialize = function(lat, lng) {
               modal.hide();
               speech.cancel();
               questionCount++;
-              if (questionCount === MAX_QUESTIONS){
+              if (questionCount === MAX_QUESTIONS) {
                 gameEnd(playerScore.getTotal());
                 return;
               }
@@ -95,10 +91,11 @@ const initialize = function(lat, lng) {
       modal.show();
       console.log(speech.getVoices());
       const readText = new SpeechSynthesisUtterance(country.history);
-      // readText.voice = speech.getVoices()[Math.floor(Math.random() * speech.getVoices().length)];
+      readText.voice = speech.getVoices()[
+        Math.floor(Math.random() * speech.getVoices().length)
+      ];
       speech.speak(readText);
-    }
-    else{
+    } else {
     }
   });
 };
@@ -116,53 +113,54 @@ const loadQuestion = function() {
 const createCard = function(country) {
   const title = document.querySelector('.title');
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
-  const request = new Request(`http://api.openweathermap.org/data/2.5/weather?q=${country.properties.capital}&units=metric&APPID=4d395766733b9a8d94c94baa063152f1`)
+  const request = new Request(
+    `http://api.openweathermap.org/data/2.5/weather?q=${
+      country.properties.capital
+    }&units=metric&APPID=4d395766733b9a8d94c94baa063152f1`
+  );
   request.get(function(body) {
-   currentWeather = 'Temperature: ' + body.main.temp + '°';
+    currentWeather = 'Temperature: ' + body.main.temp + '°C';
   });
 };
 
-const gameEnd = function(score){
+const gameEnd = function(score) {
   modal.set({
-    title: "Game Over!",
+    title: 'Game Over!',
     body: `<p id='score-title'>Score</p> <p id='final-score'>${score}</p>`,
     buttons: {
       action: {
-        label: "Play Again?",
-        fn: function(){
+        label: 'Play Again?',
+        fn: function() {
           modal.hide();
           initialize(48.21, 16.37);
           playerScore.total = 0;
-        }
+        },
       },
       close: {
-        label: "Show Scores",
-        fn: function(){
-
+        label: 'Show Scores',
+        fn: function() {
           modal.hide();
           modal.set({
-            title: "Leader Board",
+            title: 'Leader Board',
             body: createLeaderboard(scores),
           });
           modal.show();
-        }
-      }
-
-    }
+        },
+      },
+    },
   });
   playerScore.saveScore();
   getScores();
   modal.show();
 };
 
-const getScores = function(){
-  const request = new Request("http://localhost:5000/api/scores");
-  request.get(function(body){
+const getScores = function() {
+  const request = new Request('http://localhost:5000/api/scores');
+  request.get(function(body) {
     scores = body;
     console.log(scores);
   });
   console.log(scores);
-
 };
 
 const createLeaderboard = function(scores) {
@@ -173,19 +171,15 @@ const createLeaderboard = function(scores) {
 
 
  `;
- return table;
+  return table;
 };
 
 const populateScores = function(scores) {
-  let scoreList = "";
-  scores.forEach(function(score){
-    scoreList += `<p>${score.name} : ${score.score}</p>`
-
+  let scoreList = '';
+  scores.forEach(function(score) {
+    scoreList += `<p>${score.name} : ${score.score}</p>`;
   });
   return scoreList;
-
-}
-
-
+};
 
 document.addEventListener('DOMContentLoaded', app);
