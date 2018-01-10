@@ -4,7 +4,7 @@ const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
 const speech = window.speechSynthesis;
-const NewsView = require('./views/newsView.js');
+const NewsView = require('./views/newsView');
 const ScoreView = require('./views/scoreView');
 
 
@@ -70,7 +70,7 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
-        // getNews(country);
+        getNews(country);
         countryMap.setCapitalMarker(countryLocation);
 
 
@@ -102,7 +102,7 @@ const initialize = function(lat, lng) {
           close: {
            label: "Show News",
            fn: function(){
-
+            console.log(news);
              modal.hide();
              modal.set({
                title: `News for ${country.properties.country}`,

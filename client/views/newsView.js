@@ -18,3 +18,5 @@ const newsView = function() {
  };
 
 };
+
+module.exports = newsView;
