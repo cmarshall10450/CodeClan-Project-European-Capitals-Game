@@ -19,6 +19,7 @@ to allow for a leaderboard to be displayed.
 ## How to run the app.
 
 * npm install
+* run - mongod
 * npm run build
 * npm start
 * run on - Localhost:5000/
