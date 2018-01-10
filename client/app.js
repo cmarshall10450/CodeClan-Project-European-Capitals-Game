@@ -70,7 +70,7 @@ const initialize = function(lat, lng) {
         title: playerScore.getTitle(distance),
         body: `
           <img src='${country.images[0]}'/>
-          <p><img src=${weatherIcon} ${currentWeather}</p>
+          <p><img src=${weatherIcon}> ${currentWeather}</p>
           <p>${distance} km away.</p>
           <p>You scored <span>${playerScore.calculate(distance)}</span></p>
           <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
@@ -115,7 +115,7 @@ const createCard = function(country) {
   request.get(function(body) {
    console.log(body);
    currentWeather = 'Temperature: ' + body.main.temp + '°';
-   weatherIcon = body.weather.icon;
+   weatherIcon = 'http://openweathermap.org/img/w/' + body.weather[0].icon + '.png';
   });
 };
 
