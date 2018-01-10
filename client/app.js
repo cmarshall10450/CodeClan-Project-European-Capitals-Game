@@ -57,7 +57,7 @@ const initialize = function(lat, lng) {
   let mapDiv = document.getElementById('map');
   questionCount = 0;
   getScores();
-  const newsView = new NewsView();
+  // const newsView = new NewsView();
 
 
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
@@ -70,7 +70,7 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
-        getNews(country);
+        // getNews(country);
         countryMap.setCapitalMarker(countryLocation);
 
 
@@ -99,18 +99,18 @@ const initialize = function(lat, lng) {
               loadQuestion();
             },
           },
-          close: {
-           label: "Show News",
-           fn: function(){
-            console.log(news);
-             modal.hide();
-             modal.set({
-               title: `News for ${country.properties.country}`,
-               body: newsView.createNewsboard(news),
-             });
-             modal.show();
-           }
-          }
+          // close: {
+          //  label: "Show News",
+          //  fn: function(){
+          //   console.log(news);
+          //    modal.hide();
+          //    modal.set({
+          //      title: `News for ${country.properties.country}`,
+          //      body: newsView.createNewsboard(news),
+          //    });
+          //    modal.show();
+          //  }
+          // }
         },
       });
       modal.show();
@@ -160,18 +160,18 @@ const gameEnd = function(score){
           playerScore.total = 0;
         }
       },
-      close: {
-        label: "Show Scores",
-        fn: function(){
-
-          modal.hide();
-          modal.set({
-            title: "Leader Board",
-            body: scoreView.createLeaderboard(scores),
-          });
-          modal.show();
-        }
-      }
+      // close: {
+      //   label: "Show Scores",
+      //   fn: function(){
+      //
+      //     modal.hide();
+      //     modal.set({
+      //       title: "Leader Board",
+      //       body: scoreView.createLeaderboard(scores),
+      //     });
+      //     modal.show();
+      //   }
+      // }
 
     }
   });
@@ -188,14 +188,14 @@ const getScores = function(){
   });
 };
 
-const getNews = function(country) {
- const request = new Request('https://newsapi.org/v2/everything?sources=bbc-news,daily-mail,google-news-uk&page=5&sortBy=relevancy&language=en&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
-
- request.get(function(body) {
-  news = body;
-  console.log(body);
- });
-};
+// const getNews = function(country) {
+//  const request = new Request('https://newsapi.org/v2/everything?sources=bbc-news,daily-mail,google-news-uk&page=5&sortBy=relevancy&language=en&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
+//
+//  request.get(function(body) {
+//   news = body;
+//   console.log(body);
+//  });
+// };
 
 
 
