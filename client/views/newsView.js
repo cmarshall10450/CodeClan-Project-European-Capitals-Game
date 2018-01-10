@@ -1,4 +1,5 @@
 const newsView = function() {
+ this.news = [];
 
  newsView.prototype.createNewsboard = function(news) {
   // <h1 id="news-board">Latest News<h1>
@@ -7,7 +8,7 @@ const newsView = function() {
   `;
   return table;
  };
- 
+
  const populateNews = function(news) {
    let newsList = "";
    news.forEach(function(thisNew){
@@ -16,4 +17,4 @@ const newsView = function() {
    return newsList;
  };
 
-}
+};
