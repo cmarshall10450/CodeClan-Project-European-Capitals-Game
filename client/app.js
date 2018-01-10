@@ -4,6 +4,7 @@ const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
 const speech = window.speechSynthesis;
+const NewsView = require('./views/newsView');
 const ScoreView = require('./views/scoreView');
 
 
@@ -56,6 +57,7 @@ const initialize = function(lat, lng) {
   let mapDiv = document.getElementById('map');
   questionCount = 0;
   getScores();
+  // const newsView = new NewsView();
 
 
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
@@ -100,11 +102,11 @@ const initialize = function(lat, lng) {
           // close: {
           //  label: "Show News",
           //  fn: function(){
-          //
+          //   console.log(news);
           //    modal.hide();
           //    modal.set({
           //      title: `News for ${country.properties.country}`,
-          //      body: createNewsboard(news),
+          //      body: newsView.createNewsboard(news),
           //    });
           //    modal.show();
           //  }
@@ -204,21 +206,6 @@ const getScores = function(){
 //  });
 // };
 
-const populateNews = function(news) {
-  let newsList = "";
-  news.forEach(function(thisNew){
-    newsList += `<p>${thisNew.title} : <a href=${thisNew.url}>see more</a></p>`
-  });
-  return newsList;
-};
-
-const createNewsboard = function(news) {
- // <h1 id="news-board">Latest News<h1>
-  const table = `
-  ${populateNews(news.articles)}
- `;
- return table;
-};
 
 
 document.addEventListener('DOMContentLoaded', app);
