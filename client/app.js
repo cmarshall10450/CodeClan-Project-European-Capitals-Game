@@ -9,6 +9,7 @@ const speech = window.speechSynthesis;
 let countryMap;
 let country;
 let currentWeather;
+let weatherIcon;
 let modal;
 let playerScore;
 let playerName;
@@ -68,14 +69,14 @@ const initialize = function(lat, lng) {
       const distance = geojson.getDistance([attempt, countryLocation]);
         // getNews(country);
         countryMap.setCapitalMarker(countryLocation);
-        
+
 
 
       modal.set({
         title: playerScore.getTitle(distance),
         body: `
           <img src='${country.images[0]}'/>
-          <p>${currentWeather}</p>
+          <p><img src=${weatherIcon}> ${currentWeather}</p>
           <p>${distance} km away.</p>
           <p>You scored <span>${playerScore.calculate(distance)}</span></p>
           <p>Your total so far is <span>${playerScore.getTotal()}</span></p>
@@ -136,7 +137,9 @@ const createCard = function(country) {
   title.innerHTML = 'Where is ' + country.properties.capital + '?';
   const request = new Request(`http://api.openweathermap.org/data/2.5/weather?q=${country.properties.capital}&units=metric&APPID=4d395766733b9a8d94c94baa063152f1`)
   request.get(function(body) {
-   currentWeather = 'Temperature: ' + body.main.temp + '°C';
+   console.log(body);
+   currentWeather = 'Temperature: ' + body.main.temp + '°';
+   weatherIcon = 'http://openweathermap.org/img/w/' + body.weather[0].icon + '.png';
   });
 };
 
