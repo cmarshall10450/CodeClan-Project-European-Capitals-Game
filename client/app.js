@@ -160,6 +160,7 @@ const gameEnd = function(score){
           playerScore.total = 0;
         }
       },
+<<<<<<< HEAD
       // close: {
       //   label: "Show Scores",
       //   fn: function(){
@@ -172,6 +173,29 @@ const gameEnd = function(score){
       //     modal.show();
       //   }
       // }
+=======
+      close: {
+        label: "Show Scores",
+        fn: function(){
+
+          modal.hide();
+          modal.set({
+            title: "Leader Board",
+            body: scoreView.createLeaderboard(scores),
+            buttons: {close: null, action: {
+              label: "Play Again?",
+              fn: function(){
+                modal.hide();
+                initialize(48.21, 16.37);
+                playerScore.total = 0;
+              }
+            }
+          }
+          });
+          modal.show();
+        }
+      }
+>>>>>>> 31-clean-code
 
     }
   });
