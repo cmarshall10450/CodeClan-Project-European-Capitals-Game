@@ -4,6 +4,7 @@ const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
 const speech = window.speechSynthesis;
+const ScoreView = require('./views/scoreView');
 
 
 let countryMap;
@@ -144,6 +145,7 @@ const createCard = function(country) {
 };
 
 const gameEnd = function(score){
+ const scoreView = new ScoreView();
   modal.set({
     title: "Game Over!",
     body: `<p id='score-title'>Score</p> <p id='final-score'>${score}</p>`,
@@ -163,7 +165,7 @@ const gameEnd = function(score){
           modal.hide();
           modal.set({
             title: "Leader Board",
-            body: createLeaderboard(scores),
+            body: scoreView.createLeaderboard(scores),
           });
           modal.show();
         }
@@ -182,26 +184,6 @@ const getScores = function(){
     scores = body;
     console.log(scores);
   });
-};
-
-const createLeaderboard = function(scores) {
-  const table = `
-  <h1 id="score-board">Name : Score<h1>
-  ${populateScores(scores)}
-
-
-
- `;
- return table;
-};
-
-const populateScores = function(scores) {
-  let scoreList = "";
-  scores.forEach(function(score){
-    scoreList += `<p>${score.name} : ${score.score}</p>`
-
-  });
-  return scoreList;
 };
 
 // const getNews = function(country) {
