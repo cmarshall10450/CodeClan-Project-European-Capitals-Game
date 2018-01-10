@@ -3,6 +3,7 @@ const Modal = require('./models/Modal');
 const Score = require('./score');
 const Request = require('./services/request');
 const geojson = require('geojson-tools');
+const speech = window.speechSynthesis;
 
 
 let countryMap;
@@ -13,6 +14,8 @@ let modal;
 let playerScore;
 let playerName;
 let scores;
+let news;
+
 
 const MAX_QUESTIONS = 5;
 let questionCount = 0;
@@ -53,6 +56,7 @@ const initialize = function(lat, lng) {
   questionCount = 0;
   getScores();
 
+
   countryMap = new MapWrapper(mapDiv, center, 5, function(attempt) {
     if (questionCount < MAX_QUESTIONS){
 
@@ -63,8 +67,10 @@ const initialize = function(lat, lng) {
       ];
 
       const distance = geojson.getDistance([attempt, countryLocation]);
+        // getNews(country);
+        countryMap.setCapitalMarker(countryLocation);
 
-      // countryMap.addMarker(countryLocation);
+
 
       modal.set({
         title: playerScore.getTitle(distance),
@@ -81,6 +87,7 @@ const initialize = function(lat, lng) {
             label: 'Next',
             fn: function() {
               modal.hide();
+              speech.cancel();
               questionCount++;
               if (questionCount === MAX_QUESTIONS){
                 gameEnd(playerScore.getTotal());
@@ -89,9 +96,26 @@ const initialize = function(lat, lng) {
               loadQuestion();
             },
           },
+          // close: {
+          //  label: "Show News",
+          //  fn: function(){
+          //
+          //    modal.hide();
+          //    modal.set({
+          //      title: `News for ${country.properties.country}`,
+          //      body: createNewsboard(news),
+          //    });
+          //    modal.show();
+          //  }
+          // }
         },
       });
       modal.show();
+      console.log(speech.getVoices());
+      const readText = new SpeechSynthesisUtterance(country.history);
+      readText.voice = speech.getVoices()[0];
+      speech.speak(readText);
+
     }
     else{
     }
@@ -158,8 +182,6 @@ const getScores = function(){
     scores = body;
     console.log(scores);
   });
-  console.log(scores);
-
 };
 
 const createLeaderboard = function(scores) {
@@ -180,9 +202,32 @@ const populateScores = function(scores) {
 
   });
   return scoreList;
+};
 
-}
+// const getNews = function(country) {
+//  const request = new Request('https://newsapi.org/v2/everything?sources=bbc-news,daily-mail,google-news-uk&page=5&sortBy=relevancy&language=en&' + `q=${country.properties.country}` + '&apiKey=526a0f58261340d58af4d6569c12859e')
+//
+//  request.get(function(body) {
+//   news = body;
+//   console.log(body);
+//  });
+// };
 
+const populateNews = function(news) {
+  let newsList = "";
+  news.forEach(function(thisNew){
+    newsList += `<p>${thisNew.title} : <a href=${thisNew.url}>see more</a></p>`
+  });
+  return newsList;
+};
+
+const createNewsboard = function(news) {
+ // <h1 id="news-board">Latest News<h1>
+  const table = `
+  ${populateNews(news.articles)}
+ `;
+ return table;
+};
 
 
 document.addEventListener('DOMContentLoaded', app);

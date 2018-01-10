@@ -73,6 +73,7 @@ MongoClient.connect(MONGO_URL, function(err, client) {
     db
       .collection('scores')
       .find({})
+      .sort({score: -1})
       .toArray(function(err, result) {
         if (err) {
           console.log(err);

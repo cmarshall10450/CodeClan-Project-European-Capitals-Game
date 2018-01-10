@@ -25,10 +25,10 @@ Modal.prototype.build = function(data) {
   const modal = document.createElement('div');
   modal.classList.add('modal');
 
-  const modalClose = document.createElement('div');
-  modalClose.classList.add('modal-close');
-  modalClose.innerText = 'X';
-  modal.appendChild(modalClose);
+  // const modalClose = document.createElement('div');
+  // modalClose.classList.add('modal-close');
+  // modalClose.innerText = 'X';
+  // modal.appendChild(modalClose);
 
   const modalHeader = document.createElement('div');
   modalHeader.classList.add('modal-header');
@@ -95,13 +95,13 @@ return modalWrapper
 Modal.prototype.show = function() {
   if (!this.visible) {
     document.querySelector('body').appendChild(this.build(this.options));
-    document.querySelector('.modal-close').addEventListener('click', () => {
-      if (this.options.onClose) {
-        this.options.onClose();
-      } else {
-        this.hide();
-      }
-    });
+    // document.querySelector('.modal-close').addEventListener('click', () => {
+    //   if (this.options.onClose) {
+    //     this.options.onClose();
+    //   } else {
+    //     this.hide();
+    //   }
+    // });
 
     if (this.options.buttons) {
       if (this.options.buttons.close) {
