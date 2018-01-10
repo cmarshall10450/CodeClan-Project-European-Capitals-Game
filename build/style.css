@@ -10,13 +10,21 @@ body {
   justify-content: center;
 }
 
+nav {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 20px;
+}
+
 #map {
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
   position: absolute;
   top: 50px;
   z-index: -10;
 }
+
+
 
 .modal-open {
   margin-top: 2rem;
@@ -63,7 +71,21 @@ body {
   background-color: #fff;
 }
 .modal-body {
+  max-height: 65vh;
   margin-bottom: 1rem;
+  overflow-y: auto;
+}
+.modal p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.modal span{
+  font-weight: bold;
+  font-size: 20px;
+  color: red;
+}
+.modal .background-fact{
+  line-height: 1.5;
 }
 .modal-buttons {
   display: flex;
@@ -89,4 +111,29 @@ body {
 }
 .btn-action:hover {
   background-color: #007e33;
+}
+.modal #sub-title {
+  margin-top: 1rem;
+}
+.modal #sub-title p {
+  margin: 0;
+}
+.modal img {
+  margin-top:1rem;
+  max-width: 50%;
+  max-height: 200px;
+}
+.modal #final-score {
+  font-size: 4rem;
+  color: red;
+  font-weight: bold;
+}
+.modal #score-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.modal #score-board {
+  color: red;
+  font-size: 40px;
 }
